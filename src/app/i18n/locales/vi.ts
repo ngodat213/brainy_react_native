@@ -16,5 +16,7 @@ export default {
     signup: 'Đăng ký',
     forgotPassword: 'Quên mật khẩu?',
     dontHaveAccount: 'Chưa có tài khoản?',
+    pleaseEnterUsername: 'Vui lòng nhập tên đăng nhập',
+    pleaseEnterPassword: 'Vui lòng nhập mật khẩu',
   },
 }; 

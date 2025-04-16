@@ -1,8 +1,11 @@
 import axios from 'axios'
 import { BaseResponse } from '../types/ApiReponse'
 import EncryptedStorage from 'react-native-encrypted-storage'
+
+const BASE_URL = process.env.API_URL || 'http://192.168.0.105:8888/brainy_php/index.php/api' 
+
 const api = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:3000',
+  baseURL: BASE_URL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'
@@ -16,7 +19,29 @@ api.interceptors.request.use(async (config) => {
     config.headers.Authorization = `Bearer ${token}`
   }
   return config
+}, error => {
+  return Promise.reject(error)
 })
+
+// Interceptor để xử lý response
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response) {
+      // Server trả về response với status code nằm ngoài range 2xx
+      console.log('Error response:', error.response.data)
+      throw new Error(error.response.data.message || 'Server error')
+    } else if (error.request) {
+      // Request được gửi nhưng không nhận được response
+      console.log('Error request:', error.request)
+      throw new Error('Network error - No response from server')
+    } else {
+      // Có lỗi khi setup request
+      console.log('Error:', error.message)
+      throw new Error('Request setup error')
+    }
+  }
+)
 
 // Wrapper functions
 export const apiClient = {

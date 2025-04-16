@@ -16,5 +16,7 @@ export default {
     signup: 'Sign up',
     forgotPassword: 'Forgot Password?',
     dontHaveAccount: "Don't have an account?",
+    pleaseEnterUsername: 'Please enter your username',
+    pleaseEnterPassword: 'Please enter your password',
   },
 }; 

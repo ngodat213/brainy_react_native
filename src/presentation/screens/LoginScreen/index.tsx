@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { SafeAreaView, Text, View, TextInput } from 'react-native'
+import { SafeAreaView, Text, View, TextInput, Alert } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { styles } from './styles'
 import { Button } from '../../components/Button/button'
@@ -23,11 +23,28 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('')
 
   const handleLogin = async () => {
+    if (!username) {
+      Alert.alert(t('common.error'), t('auth.pleaseEnterUsername'))
+      return
+    }
+    if (!password) {
+      Alert.alert(t('common.error'), t('auth.pleaseEnterPassword'))
+      return
+    }
+
     try {
       await dispatch(loginThunk({ username, password })).unwrap()
-      navigation.navigate('HomeScreen')
-    } catch (error) {
-      console.log(error)
+      if (error) {
+        Alert.alert(t('common.error'), error)
+      } else {
+        navigation.navigate('HomeScreen')
+      }
+    } catch (error: any) {
+      console.log('Login error:', error)
+      const errorMessage = error.message?.includes('Network error') 
+        ? t('common.networkError')
+        : error.message || t('common.unknownError')
+      Alert.alert(t('common.error'), errorMessage)
     }
   }
   
@@ -57,6 +74,7 @@ const LoginScreen = () => {
       <Button 
         title={t('auth.login')}
         onPress={handleLogin}
+        loading={loading}
       />
       
       <View style={styles.signupContainer}>

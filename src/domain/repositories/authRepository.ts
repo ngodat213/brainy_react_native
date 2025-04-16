@@ -7,16 +7,15 @@ export class AuthRepository implements IAuthRepository {
   async login(credentials: { username: string; password: string }): Promise<LoginResponse> {
     try{
       const response = await apiClient.post<LoginResponseDTO>('/auth/login', credentials)
-     
-      await EncryptedStorage.setItem('token', response.data?.access_token)
-      await EncryptedStorage.setItem('refreshToken', response.data?.refresh_token)
+      await EncryptedStorage.setItem('token', response.access_token)
+      await EncryptedStorage.setItem('refreshToken', response.refresh_token)
       return {
-        user: response.data?.user,
-        accessToken: response.data?.access_token,
-        refreshToken: response.data?.refresh_token,
+        user: response.user,
+        accessToken: response.access_token,
+        refreshToken: response.refresh_token,
       }
     }catch(error){
-      throw new Error('Login failed')
+      throw new Error('Login failed ' + error)
     }
   }
 
