@@ -22,5 +22,10 @@ export default {
     confirmPassword: 'Xác nhận mật khẩu',
     signUp: 'Đăng ký',
     alreadyHaveAccount: 'Đã có tài khoản?',
+    fullName: 'Họ và tên',
+    pleaseEnterFullName: 'Vui lòng nhập họ và tên',
+    passwordNotMatch: 'Mật khẩu không khớp',
+    pleaseEnterEmail: 'Vui lòng nhập email',
+    pleaseEnterConfirmPassword: 'Vui lòng nhập mật khẩu xác nhận',
   },
 }; 

@@ -1,24 +1,24 @@
-import { LoginResponse } from "../../../data/repositories/IAuthRepository";
-import { AuthRepository } from "../../repositories/authRepository";
+import { LoginResponse } from '../../../data/repositories/IAuthRepository';
+import { AuthRepository } from '../../repositories/AuthRepository';
+
+export interface LoginParams {
+  username: string;
+  password: string;
+}
 
 export class LoginUseCase {
-  constructor(private readonly authRepository: AuthRepository) {}
+  constructor(private authRepository: AuthRepository) {}
 
-  async execute(credentials: { username: string; password: string }): Promise<LoginResponse> {
-    if (!this.validateEmail(credentials.username)) {
-      throw new Error('Invalid email')
+  async execute(params: LoginParams): Promise<LoginResponse> {
+    // Validation
+    if (!params.username) {
+      throw new Error('auth.pleaseEnterUsername');
     }
-    if (!this.validatePassword(credentials.password)) {
-      throw new Error('Invalid password')
+    if (!params.password) {
+      throw new Error('auth.pleaseEnterPassword');
     }
-    return this.authRepository.login(credentials)
-  }
 
-  private validateEmail(email: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-  }
-
-  private validatePassword(password: string): boolean {
-    return password.length >= 8
+    // Execute login
+    return this.authRepository.login(params);
   }
 }

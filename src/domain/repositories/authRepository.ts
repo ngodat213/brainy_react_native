@@ -3,8 +3,10 @@ import EncryptedStorage from 'react-native-encrypted-storage'
 import { User } from "../entities/user";
 import { LoginResponseDTO } from "../../data/models/UserDTO";
 import { apiClient } from "../../core/services/apiService";
+import { LoginParams } from '../usecases/auth/LoginUseCase';
+
 export class AuthRepository implements IAuthRepository {
-  async login(credentials: { username: string; password: string }): Promise<LoginResponse> {
+  async login(credentials: LoginParams): Promise<LoginResponse> {
     try{
       const response = await apiClient.post<LoginResponseDTO>('/auth/login', credentials)
       await EncryptedStorage.setItem('token', response.access_token)

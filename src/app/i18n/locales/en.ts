@@ -22,5 +22,10 @@ export default {
     confirmPassword: 'Confirm Password',
     signUp: 'Sign Up',
     alreadyHaveAccount: 'Already have an account?',
+    fullName: 'Full Name',
+    pleaseEnterFullName: 'Please enter your full name',
+    passwordNotMatch: 'Password not match',
+    pleaseEnterEmail: 'Please enter your email',
+    pleaseEnterConfirmPassword: 'Please enter your confirm password',
   },
 }; 

@@ -3,6 +3,7 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../../../core/utils/screenUtils";
 
 export const signUpStyles = StyleSheet.create({
   header: {
+    alignItems: 'center',
     marginBottom: SCREEN_WIDTH * 0.05,
     marginTop: SCREEN_WIDTH * 0.3,
   },

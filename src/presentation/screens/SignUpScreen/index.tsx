@@ -1,18 +1,28 @@
 import {SafeAreaView, View} from 'react-native';
 import SignUpScreenProps from './types';
-import {Text, TextInput} from 'react-native-gesture-handler';
+import {Text} from 'react-native-gesture-handler';
 import {signUpStyles} from './styles';
 import {useTheme} from '../../../core/theme/ThemeContext';
 import {t} from 'i18next';
 import {BaseButton, BaseInput} from '../../components/base';
-import {useState} from 'react';
 import { TextButton } from '../../components/Button/text_button';
+import { useSignUpViewModel } from './useSignUpViewModel';
 const SignUpScreen: React.FC<SignUpScreenProps> = ({}) => {
   const {theme} = useTheme();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const {
+    fullName,
+    username,
+    password,
+    email,
+    confirmPassword,
+    setFullName,
+    setUsername,
+    setPassword,
+    setEmail,
+    setConfirmPassword,
+    handleSignUp,
+    redirectToLogin,
+  } = useSignUpViewModel();
 
   return (
     <SafeAreaView style={signUpStyles.container}>
@@ -32,6 +42,13 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({}) => {
           {t('auth.loginToContinue')}
         </Text>
       </View>
+
+      <BaseInput
+        placeholder={t('auth.fullName')}
+        value={fullName}
+        onChangeText={setFullName}
+        autoCapitalize="none"
+      />
       <BaseInput
         placeholder={t('auth.username')}
         value={username}
@@ -56,10 +73,10 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({}) => {
         onChangeText={setConfirmPassword}
         autoCapitalize="none"
       />
-      <BaseButton size="small" title={t('auth.signUp')} onPress={() => {}} />
+      <BaseButton size="small" fullWidth={true} title={t('auth.signUp')} onPress={handleSignUp} />
       <View style={signUpStyles.footer}>
         <Text style={signUpStyles.footerText}>{t('auth.alreadyHaveAccount')}</Text>
-        <TextButton title={t('auth.login')} onPress={() => {}} />
+        <TextButton title={t('auth.login')} onPress={redirectToLogin} />
       </View>
     </SafeAreaView>
   );
