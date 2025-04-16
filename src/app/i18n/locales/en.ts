@@ -18,5 +18,9 @@ export default {
     dontHaveAccount: "Don't have an account?",
     pleaseEnterUsername: 'Please enter your username',
     pleaseEnterPassword: 'Please enter your password',
+    createAccount: 'Create Account',
+    confirmPassword: 'Confirm Password',
+    signUp: 'Sign Up',
+    alreadyHaveAccount: 'Already have an account?',
   },
 }; 

@@ -4,6 +4,7 @@ import {
   TouchableOpacityProps,
   StyleSheet,
   ActivityIndicator,
+  FlexStyle,
 } from 'react-native';
 import { useTheme } from '../../../core/theme/ThemeContext';
 import BaseText from './BaseText';
@@ -14,6 +15,7 @@ interface BaseButtonProps extends TouchableOpacityProps {
   size?: 'small' | 'medium' | 'large';
   loading?: boolean;
   disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 const BaseButton: React.FC<BaseButtonProps> = ({
@@ -22,6 +24,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
   size = 'medium',
   loading = false,
   disabled = false,
+  fullWidth = true,
   style,
   ...props
 }) => {
@@ -37,6 +40,7 @@ const BaseButton: React.FC<BaseButtonProps> = ({
       paddingHorizontal: theme.spacing[size === 'small' ? 'md' : size === 'large' ? 'xl' : 'lg'],
       borderRadius: 8,
       opacity: disabled ? 0.5 : 1,
+      alignSelf: fullWidth ? 'stretch' as const : 'auto' as const,
     };
 
     return [styles.button, baseStyle, style];
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     justifyContent: 'center',
+    minWidth: 64,
   },
   text: {
     textAlign: 'center',

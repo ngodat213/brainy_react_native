@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import { SafeAreaView, Text, View, TextInput, Alert } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { styles } from './styles'
+import { loginStyles } from './styles'
 import { Button } from '../../components/Button/button'
 import { useNavigation } from '@react-navigation/native'
 import { loginThunk } from '../../store/auth/authThunks'
 import { selectAuthLoading, selectAuthError } from '../../store/auth/authSelectors'
 import { NavigationProps } from '../../../app/navigation/AppNavigator'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { LoginScreenProps } from './types'
-import LanguageSwitch from '../../components/LanguageSwitch'
 import { TextButton } from '../../components/Button/text_button'
+import { BaseButton } from '../../components/base'
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch()
@@ -49,14 +48,14 @@ const LoginScreen = () => {
   }
   
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.welcomeText}>{t('auth.welcome')}</Text>
-        <Text style={styles.subtitleText}>{t('auth.loginToContinue')}</Text>
+    <SafeAreaView style={loginStyles.container}>
+      <View style={loginStyles.header}>
+        <Text style={loginStyles.welcomeText}>{t('auth.welcome')}</Text>
+        <Text style={loginStyles.subtitleText}>{t('auth.loginToContinue')}</Text>
       </View>
       
       <TextInput
-        style={styles.input}
+        style={loginStyles.input}
         placeholder={t('auth.username')}
         value={username}
         onChangeText={setUsername}
@@ -64,21 +63,21 @@ const LoginScreen = () => {
       />
       
       <TextInput
-        style={styles.input}
+        style={loginStyles.input}
         placeholder={t('auth.password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
       />
       
-      <Button 
+      <BaseButton 
         title={t('auth.login')}
         onPress={handleLogin}
         loading={loading}
       />
       
-      <View style={styles.signupContainer}>
-        <Text style={styles.signupText}>{t('auth.dontHaveAccount')}</Text>
+      <View style={loginStyles.signupContainer}>
+        <Text style={loginStyles.signupText}>{t('auth.dontHaveAccount')}</Text>
         <TextButton
           title={t('auth.signup')}
           onPress={() => navigation.navigate('SignUpScreen')}

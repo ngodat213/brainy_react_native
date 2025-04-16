@@ -18,5 +18,9 @@ export default {
     dontHaveAccount: 'Chưa có tài khoản?',
     pleaseEnterUsername: 'Vui lòng nhập tên đăng nhập',
     pleaseEnterPassword: 'Vui lòng nhập mật khẩu',
+    createAccount: 'Tạo tài khoản',
+    confirmPassword: 'Xác nhận mật khẩu',
+    signUp: 'Đăng ký',
+    alreadyHaveAccount: 'Đã có tài khoản?',
   },
 }; 
