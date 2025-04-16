@@ -11,6 +11,7 @@ export default {
     loginToContinue: 'Login to continue',
     email: 'Email',
     password: 'Password',
+    username: 'Username',
     login: 'Login',
     signup: 'Sign up',
     forgotPassword: 'Forgot Password?',

@@ -11,6 +11,7 @@ export default {
     loginToContinue: 'Đăng nhập để tiếp tục',
     email: 'Email',
     password: 'Mật khẩu',
+    username: 'Tên đăng nhập',
     login: 'Đăng nhập',
     signup: 'Đăng ký',
     forgotPassword: 'Quên mật khẩu?',

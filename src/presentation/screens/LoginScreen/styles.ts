@@ -3,34 +3,34 @@ import { StyleSheet, Dimensions } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     padding: 20,
-    margin: 20,
+    margin: 10,
     justifyContent: 'center',
   },
+  header: {
+    marginBottom: 32,
+  },
   welcomeText: {
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    color: '#333333',
+    color: '#000',
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitleText: {
     fontSize: 16,
-    color: '#666666',
+    color: '#666',
     marginBottom: 32,
     textAlign: 'center',
   },
   input: {
-    width: '100%',
-    height: 50,
+    height: 48,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#ddd',
     borderRadius: 8,
     paddingHorizontal: 16,
     marginBottom: 16,
     fontSize: 16,
-    backgroundColor: '#F8F8F8',
   },
   loginButtonText: {
     color: '#FFFFFF',
@@ -39,18 +39,22 @@ export const styles = StyleSheet.create({
   },
   signupContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 24,
+    justifyContent: 'center',
+    marginTop: 16,
   },
   signupText: {
-    fontSize: 14,
-    color: '#666666',
+    fontSize: 16,
+    color: '#666',
   },
   signupLink: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#007AFF',
-    fontWeight: '600',
     marginLeft: 4,
+  },
+  languageContainer: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
   },
 });  

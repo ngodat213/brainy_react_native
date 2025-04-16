@@ -9,6 +9,8 @@ import { selectAuthLoading, selectAuthError } from '../../store/auth/authSelecto
 import { NavigationProps } from '../../../app/navigation/AppNavigator'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { LoginScreenProps } from './types'
+import LanguageSwitch from '../../components/LanguageSwitch'
+import { TextButton } from '../../components/Button/text_button'
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch()
@@ -31,8 +33,10 @@ const LoginScreen = () => {
   
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.welcomeText}>{t('auth.welcome')}</Text>
-      <Text style={styles.subtitleText}>{t('auth.loginToContinue')}</Text>
+      <View style={styles.header}>
+        <Text style={styles.welcomeText}>{t('auth.welcome')}</Text>
+        <Text style={styles.subtitleText}>{t('auth.loginToContinue')}</Text>
+      </View>
       
       <TextInput
         style={styles.input}
@@ -57,9 +61,8 @@ const LoginScreen = () => {
       
       <View style={styles.signupContainer}>
         <Text style={styles.signupText}>{t('auth.dontHaveAccount')}</Text>
-        <Button
+        <TextButton
           title={t('auth.signup')}
-          variant="outline"
           onPress={() => navigation.navigate('SignUpScreen')}
           style={{ marginLeft: 8 }}
         />
