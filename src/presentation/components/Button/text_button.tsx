@@ -33,7 +33,7 @@ export const TextButton: React.FC<TextButtonProps> = ({
 const styles = StyleSheet.create({
   text: {
     color: colors.primary.main,
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: '600',
   },
   disabled: {
