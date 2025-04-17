@@ -1,50 +1,38 @@
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Alert } from "react-native";
-import { useAppDispatch } from "../../store/hooks";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../../app/navigation/AppNavigator";
-import { registerThunk } from "../../store/auth/authThunks";
+import { AuthRepository } from "../../../domain/repositories/authRepository";
+import { SignUpUseCase } from "../../../domain/usecases/auth/signUpUseCase";
+import { Alert } from "react-native";
+import { t } from "i18next";
 
 export const useSignUpViewModel = () => {
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
   const navigation = useNavigation<NavigationProps>();
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  // Initialize use case
+  const authRepository = new AuthRepository();
+  const signUpUseCase = new SignUpUseCase(authRepository);
 
   const handleSignUp = async () => {
-    if (!username) {
-      Alert.alert(t('common.error'), t('auth.pleaseEnterUsername'))
-      return
-    }
-    if (!password) {
-      Alert.alert(t('common.error'), t('auth.pleaseEnterPassword'))
-      return
-    }
-    if (!email) {
-      Alert.alert(t('common.error'), t('auth.pleaseEnterEmail'))
-      return
-    }
-
-    if (password !== confirmPassword) {
-      Alert.alert(t('common.error'), t('auth.passwordNotMatch'))
-      return
-    }
-
     try {
-      await dispatch(registerThunk({fullName, username, password, email})).unwrap()
+      setLoading(true)
+      await signUpUseCase.execute({full_name: fullName, username, password, email, confirmPassword})
       navigation.navigate('LoginScreen')
+      Alert.alert(t('auth.signUpSuccess'), t('auth.signUpSuccessMessage'))
     } catch (error: any) {
-      console.log('Sign up error:', error)
+      Alert.alert(t('common.error'), error.message)
+    } finally {
+      setLoading(false)
     }
   };
 
   const redirectToLogin = () => {
-    navigation.navigate('LoginScreen');
+    navigation.goBack();
   };
 
   return {

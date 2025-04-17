@@ -4,6 +4,7 @@ import { User } from "../entities/user";
 import { LoginResponseDTO } from "../../data/models/UserDTO";
 import { apiClient } from "../../core/services/apiService";
 import { LoginParams } from '../usecases/auth/LoginUseCase';
+import { SignUpParams } from "../usecases/auth/signUpUseCase";
 
 export class AuthRepository implements IAuthRepository {
   async login(credentials: LoginParams): Promise<LoginResponse> {
@@ -21,7 +22,7 @@ export class AuthRepository implements IAuthRepository {
     }
   }
 
-  async register(credentials: {fullName: string, username: string, email: string, password: string }): Promise<void> {
+  async register(credentials: SignUpParams): Promise<void> {
     try{
       await apiClient.post('/auth/register', credentials)
     }catch(error){

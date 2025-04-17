@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
 import { NavigationProps } from '../../../app/navigation/AppNavigator';
-import { LoginUseCase } from '../../../domain/usecases/auth/LoginUseCase';
+import { LoginUseCase } from '../../../domain/usecases/auth/loginUseCase';
 import { AuthRepository } from '../../../domain/repositories/authRepository';
 
 export const useLoginViewModel = () => {
@@ -30,6 +30,10 @@ export const useLoginViewModel = () => {
     }
   };
 
+  const redirectToRegister = () => {
+    navigation.navigate('SignUpScreen');
+  };
+
   const handleForgotPassword = () => {
     navigation.navigate('ForgotPwScreen');
   };
@@ -42,5 +46,6 @@ export const useLoginViewModel = () => {
     setPassword,
     handleLogin,
     handleForgotPassword,
+    redirectToRegister,
   };
 }; 

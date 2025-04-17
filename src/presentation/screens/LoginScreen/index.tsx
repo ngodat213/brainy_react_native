@@ -19,6 +19,7 @@ const LoginScreen = () => {
     setPassword,
     handleLogin,
     handleForgotPassword,
+    redirectToRegister,
   } = useLoginViewModel();
 
   return (
@@ -58,7 +59,7 @@ const LoginScreen = () => {
         <Text style={loginStyles.signupText}>{t('auth.dontHaveAccount')}</Text>
         <TextButton
           title={t('auth.signup')}
-          onPress={() => navigation.navigate('SignUpScreen')}
+          onPress={redirectToRegister}
           style={{marginLeft: 8}}
         />
       </View>

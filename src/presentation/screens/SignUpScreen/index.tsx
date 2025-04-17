@@ -66,12 +66,14 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({}) => {
         value={password}
         onChangeText={setPassword}
         autoCapitalize="none"
+        secureTextEntry
       />
       <BaseInput
         placeholder={t('auth.confirmPassword')}
         value={confirmPassword}
         onChangeText={setConfirmPassword}
         autoCapitalize="none"
+        secureTextEntry
       />
       <BaseButton size="small" fullWidth={true} title={t('auth.signUp')} onPress={handleSignUp} />
       <View style={signUpStyles.footer}>

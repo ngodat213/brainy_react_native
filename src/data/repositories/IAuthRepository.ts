@@ -1,4 +1,6 @@
 import { User } from "../../domain/entities/user";
+import { LoginParams } from "../../domain/usecases/auth/loginUseCase";
+import { SignUpParams } from "../../domain/usecases/auth/signUpUseCase";
 
 export interface LoginResponse {
   user: User
@@ -7,8 +9,8 @@ export interface LoginResponse {
 }
 
 export interface IAuthRepository {
-  login(credentials: { username: string; password: string }): Promise<LoginResponse>
-  register(credentials: {fullName: string, username: string, email: string, password: string }): Promise<void>
+  login(credentials: LoginParams): Promise<LoginResponse>
+  register(credentials: SignUpParams): Promise<void>
   logout(): Promise<void>
   refreshToken(): Promise<string>
   getCurrentUser(): Promise<User>

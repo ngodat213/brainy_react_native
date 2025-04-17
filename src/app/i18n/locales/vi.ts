@@ -27,5 +27,7 @@ export default {
     passwordNotMatch: 'Mật khẩu không khớp',
     pleaseEnterEmail: 'Vui lòng nhập email',
     pleaseEnterConfirmPassword: 'Vui lòng nhập mật khẩu xác nhận',
+    signUpSuccess: 'Đăng ký thành công',
+    signUpSuccessMessage: 'Vui lòng đăng nhập để tiếp tục',
   },
 }; 

@@ -27,5 +27,7 @@ export default {
     passwordNotMatch: 'Password not match',
     pleaseEnterEmail: 'Please enter your email',
     pleaseEnterConfirmPassword: 'Please enter your confirm password',
+    signUpSuccess: 'Sign up successfully',
+    signUpSuccessMessage: 'Please login to continue',
   },
 }; 
