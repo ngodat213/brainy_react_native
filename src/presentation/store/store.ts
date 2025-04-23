@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './auth/authSlice'
-import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
+import wordReducer from './word/wordSlice'
+
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    word: wordReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

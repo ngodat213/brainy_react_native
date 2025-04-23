@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../domain/entities/user";
 import { loginThunk, registerThunk } from "./authThunks";
+import { t } from "i18next";
 
 interface AuthState {
   isAuthenticated: boolean
@@ -55,7 +56,7 @@ const authSlice = createSlice({
       state.loading = false
     })
     builder.addCase(loginThunk.rejected, (state, action) => {
-      state.error = action.error.message || 'Login failed'
+      state.error = action.error.message || t('auth.loginFailed')
       state.loading = false
     })
     builder.addCase(registerThunk.pending, (state) => {
@@ -65,7 +66,7 @@ const authSlice = createSlice({
       state.loading = false
     })
     builder.addCase(registerThunk.rejected, (state, action) => {
-      state.error = action.error.message || 'Register failed'
+      state.error = action.error.message || t('auth.registerFailed')
       state.loading = false
     })
   } 

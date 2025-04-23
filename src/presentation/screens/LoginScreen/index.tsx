@@ -2,15 +2,12 @@ import React, {useState} from 'react';
 import {SafeAreaView, Text, View, TextInput, Alert} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {loginStyles} from './styles';
-import {useNavigation} from '@react-navigation/native';
-import {NavigationProps} from '../../../app/navigation/AppNavigator';
 import {TextButton} from '../../components/Button/text_button';
 import {BaseButton} from '../../components/base';
 import { useLoginViewModel } from './useLoginViewModel';
 
 const LoginScreen = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation<NavigationProps>();
   const {
     username,
     password,

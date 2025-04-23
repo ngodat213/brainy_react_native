@@ -2,16 +2,19 @@ import { useState } from 'react';
 import { Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../../../app/navigation/AppNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../app/navigation/AppNavigator';
 import { LoginUseCase } from '../../../domain/usecases/auth/loginUseCase';
 import { AuthRepository } from '../../../domain/repositories/authRepository';
 
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
 export const useLoginViewModel = () => {
   const { t } = useTranslation();
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<LoginScreenNavigationProp>();
   const [loading, setLoading] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('ngodat213');
+  const [password, setPassword] = useState('Code26102003');
 
   // Initialize use case
   const authRepository = new AuthRepository();
@@ -21,7 +24,8 @@ export const useLoginViewModel = () => {
     try {
       setLoading(true);
       await loginUseCase.execute({ username, password });
-      navigation.navigate('HomeScreen');
+      // After successful login, navigate to Main screen
+      navigation.navigate('Main');
     } catch (error: any) {
       const errorMessage = t(error.message || 'common.unknownError');
       Alert.alert(t('common.error'), errorMessage);
@@ -31,11 +35,13 @@ export const useLoginViewModel = () => {
   };
 
   const redirectToRegister = () => {
-    navigation.navigate('SignUpScreen');
+    // Navigate to SignUp screen in Auth stack
+    navigation.navigate('Auth', { screen: 'SignUp' });
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('ForgotPwScreen');
+    // Navigate to ForgotPassword screen in Auth stack
+    navigation.navigate('Auth', { screen: 'ForgotPassword' });
   };
 
   return {

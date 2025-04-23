@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "../../../app/navigation/AppNavigator";
 import { AuthRepository } from "../../../domain/repositories/authRepository";
 import { SignUpUseCase } from "../../../domain/usecases/auth/signUpUseCase";
 import { Alert } from "react-native";
 import { t } from "i18next";
+import { AuthStackParamList } from "../../../app/navigation/AppNavigator";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+type SignUpScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'SignUp'>;
 
 export const useSignUpViewModel = () => {
-  const navigation = useNavigation<NavigationProps>();
+  const navigation = useNavigation<SignUpScreenNavigationProp>();
   const [fullName, setFullName] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -22,7 +25,7 @@ export const useSignUpViewModel = () => {
     try {
       setLoading(true)
       await signUpUseCase.execute({full_name: fullName, username, password, email, confirmPassword})
-      navigation.navigate('LoginScreen')
+      navigation.navigate('Login')
       Alert.alert(t('auth.signUpSuccess'), t('auth.signUpSuccessMessage'))
     } catch (error: any) {
       Alert.alert(t('common.error'), error.message)

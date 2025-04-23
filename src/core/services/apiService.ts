@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { BaseResponse } from '../types/ApiReponse'
 import EncryptedStorage from 'react-native-encrypted-storage'
+import { BEARER_TOKEN, TIMEOUT_REQUEST, TOKEN_KEY } from '../constants/constants'
 
 const BASE_URL = process.env.API_URL || 'http://192.168.0.105:8888/brainy_php/index.php/api' 
 
 const api = axios.create({
   baseURL: BASE_URL,
-  timeout: 10000,
+  timeout: TIMEOUT_REQUEST,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -14,9 +15,9 @@ const api = axios.create({
 
 // Interceptors để xử lý token
 api.interceptors.request.use(async (config) => {
-  const token = await EncryptedStorage.getItem('token')
+  const token = await EncryptedStorage.getItem(TOKEN_KEY)
   if (token) {
-    config.headers.Authorization = `Bearer ${token}`
+    config.headers.Authorization = `${BEARER_TOKEN} ${token}`
   }
   return config
 }, error => {
