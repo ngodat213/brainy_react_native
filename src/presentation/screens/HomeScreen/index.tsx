@@ -40,18 +40,34 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         </View>
         <Text style={styles.wordText}>{wordItem.word}</Text>
         <View style={styles.audioContainer}>
-          <View style={styles.audioButton}>
-            <TouchableOpacity style={styles.audioButton}>
-              <Ionicons name="volume-high" size={24} color={posColor} />
-            </TouchableOpacity>
-            <Text style={{fontSize: 12}}>{wordItem.phoneticText}</Text>
-          </View>
+          <AudioButton wordItem={wordItem} isAm={false} />
+          <AudioButton wordItem={wordItem} isAm={true} />
         </View>
         {wordItem.senses?.[0]?.definition && (
           <Text style={styles.definitionText}>
             {wordItem.senses[0].definition}
           </Text>
         )}
+        <View style={styles.divider} />
+        <View style={styles.exampleContainer}>
+          {wordItem.senses?.[0]?.examples?.map(example => (
+            <Text style={styles.exampleText}> - {example.x}</Text>
+          ))}
+        </View>
+        <View style={styles.swipperButtonsContainer}>
+          <View style={styles.swipperButton}>
+            <TouchableOpacity style={styles.audioButton}>
+              <Ionicons name="arrow_back" size={24} color={'#4FD0E9'} />
+            </TouchableOpacity>
+            <Text>Skip</Text>
+          </View>
+          <View style={styles.swipperButton}>
+            <Text>Learn</Text>
+            <TouchableOpacity style={styles.audioButton}>
+              <Ionicons name="arrow_forward" size={24} color={'#4FD0E9'} />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
   };
@@ -85,23 +101,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
           fetchRandomWords();
         }}
         cardIndex={currentCardIndex}
-        backgroundColor={'#4FD0E9'}
+        backgroundColor={'#FFFFFF'}
         stackSize={swiperStackSize}
       />
     </View>
   );
 };
 
-const AudioButton = ({wordItem}: {wordItem: Word}) => {
+const AudioButton = ({wordItem, isAm}: {wordItem: Word; isAm: boolean}) => {
+  const iconColor = isAm ? '#FF0000' : '#4FD0E9';
   return (
     <View style={styles.audioButton}>
       <TouchableOpacity style={styles.audioButton}>
-        <Ionicons name="volume-high" size={24} />
+        <Ionicons name="volume-high" size={24} color={iconColor} />
       </TouchableOpacity>
-      <Text style={{fontSize: 12}}>{wordItem.phoneticText}</Text>
+      <Text style={{fontSize: 12}}>{wordItem.phonetic_text}</Text>
     </View>
   );
-};  
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -134,26 +151,48 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    height: 400,
   },
   wordText: {
     fontSize: 32,
     fontWeight: 'bold',
+    alignSelf: 'center',
     marginBottom: 16,
   },
   definitionText: {
     fontSize: 18,
+    alignSelf: 'center',
     lineHeight: 24,
     color: '#666',
   },
   audioContainer: {
     alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 16,
   },
   audioButton: {
-    padding: 8,
     borderRadius: 20,
-    backgroundColor: '#f5f5f5',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#E0E0E0',
+    marginVertical: 16,
+  },
+  exampleContainer: {
+    marginTop: 16,
+  },
+  exampleText: {
+    fontSize: 13,
+    paddingVertical: 4,
+  },
+  swipperButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 16,
+  },
+  swipperButton: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,

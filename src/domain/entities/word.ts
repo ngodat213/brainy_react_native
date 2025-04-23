@@ -24,9 +24,9 @@ export interface Word {
   word: string;
   pos: string;
   phonetic?: string;
-  phoneticText?: string;
-  phoneticAm?: string;
-  phoneticAmText?: string;
+  phonetic_text?: string;
+  phonetic_am?: string;
+  phonetic_am_text?: string;
   audioId?: string;
   imageId?: string;
   createdAt?: string;
@@ -117,9 +117,9 @@ export const createWord = (data: Partial<Word>): Word => ({
   word: data.word || '',
   pos: data.pos || '',
   phonetic: data.phonetic,
-  phoneticText: data.phoneticText,
-  phoneticAm: data.phoneticAm,
-  phoneticAmText: data.phoneticAmText,
+  phonetic_text: data.phonetic_text,
+  phonetic_am: data.phonetic_am,
+  phonetic_am_text: data.phonetic_am_text,
   audioId: data.audioId,
   imageId: data.imageId,
   createdAt: data.createdAt,
@@ -162,9 +162,9 @@ export const wordFromJson = (json: any): Word => {
     word: json.word,
     pos: json.pos,
     phonetic: json.phonetic,
-    phoneticText: json.phonetic_text,
-    phoneticAm: json.phonetic_am,
-    phoneticAmText: json.phonetic_am_text,
+    phonetic_text: json.phonetic_text,
+    phonetic_am: json.phonetic_am,
+    phonetic_am_text: json.phonetic_am_text,
     audioId: json.audio_id,
     imageId: json.image_id,
     createdAt: json.created_at,
@@ -185,9 +185,9 @@ export const wordToJson = (word: Word): any => ({
   word: word.word,
   pos: word.pos,
   phonetic: word.phonetic,
-  phonetic_text: word.phoneticText,
-  phonetic_am: word.phoneticAm,
-  phonetic_am_text: word.phoneticAmText,
+  phonetic_text: word.phonetic_text,
+  phonetic_am: word.phonetic_am,
+  phonetic_am_text: word.phonetic_am_text,
   audio_id: word.audioId,
   image_id: word.imageId,
   created_at: word.createdAt,
