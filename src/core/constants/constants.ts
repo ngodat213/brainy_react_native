@@ -15,4 +15,5 @@ export const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 export const LIMIT_WORD_MIN_VALID = 1;
 export const LIMIT_WORD_MAX_VALID = 10;
 export const LIMIT_WORD_DEFAULT = 10;
+export const PAGE_DEFAULT = 1;
 export const STACK_SIZE_SWIPER_DEFAULT = 3;

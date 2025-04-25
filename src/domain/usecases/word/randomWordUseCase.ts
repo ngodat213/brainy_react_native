@@ -1,7 +1,5 @@
 import { Word } from "../../entities/word";
 import { WordRepository } from "../../repositories/wordRepository";
-import { LIMIT_WORD_MAX_VALID, LIMIT_WORD_MIN_VALID } from "../../../core/constants/constants";
-import { t } from "i18next";
 import { RandomWordValidator } from "../../validators/word/randomWordValidator";
 export interface RandomWordParams {
   limit: number;
@@ -19,6 +17,6 @@ export class RandomWordUseCase {
     if (!validationResult.isValid) {
       throw new Error(validationResult.errors.join(', '));
     }
-    return this.wordRepository.getRandomWords(params);
+    return await this.wordRepository.getRandomWords(params);
   }
 }

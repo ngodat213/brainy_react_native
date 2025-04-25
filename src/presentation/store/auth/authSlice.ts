@@ -6,6 +6,8 @@ import { t } from "i18next";
 interface AuthState {
   isAuthenticated: boolean
   user: User | null
+  username: string | null
+  password: string | null
   loading: boolean
   error: string | null
 }
@@ -13,6 +15,8 @@ interface AuthState {
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
+  username: 'ngodat213',
+  password: 'Code26102003',
   loading: false,
   error: null
 }
@@ -30,6 +34,12 @@ const authSlice = createSlice({
       state.user = action.payload
       state.loading = false
       state.error = null
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload
     },
     loginFailure: (state, action) => {
       state.loading = false
@@ -72,5 +82,5 @@ const authSlice = createSlice({
   } 
 })
 
-export const { clearError, setLoading } = authSlice.actions
+export const { clearError, setLoading, setUsername, setPassword } = authSlice.actions
 export default authSlice.reducer

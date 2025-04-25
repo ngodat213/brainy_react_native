@@ -1,7 +1,23 @@
 import { Word } from "../../domain/entities/word";
 
 export interface WordDTO {
-  words: Word[];
+  items: Word[];
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
+}
+
+export interface WordByStatusDTO {
+  learn: WordStatusDTO;
+}
+
+export interface WordStatusDTO {
+  items: Word[];
+  total: number;
+  page: number;
+  limit: number;
+  total_pages: number;
 }
 
 export interface RandomWordDTO {

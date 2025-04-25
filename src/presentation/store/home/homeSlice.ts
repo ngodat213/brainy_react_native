@@ -1,17 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Word } from "../../../domain/entities/word";
-import { fetchRandomWordsThunk } from "./wordThunks";
+import { fetchRandomWordsThunk } from "./homeThunks";
 import { t } from "i18next";
+import { WordByStatusDTO, WordDTO } from "../../../data/models/WordDTO";
 
 interface WordState {
   words: Word[];
-  loading: boolean;
+  allWords: WordDTO | null;
+  currentCardIndex: number;
+  loadingRandom: boolean;
   error: string | null;
 }
 
 const initialState: WordState = {
   words: [],
-  loading: false,
+  allWords: null,
+  currentCardIndex: 0,
+  loadingRandom: false,
   error: null,
 }
 
@@ -20,7 +25,7 @@ const wordSlice = createSlice({
   initialState,
   reducers: {
     setLoading: (state, action) => {
-      state.loading = action.payload;
+      state.loadingRandom = action.payload;
     },
     setError: (state, action) => {
       state.error = action.payload;
@@ -28,21 +33,30 @@ const wordSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setLoadingRandom: (state, action) => {
+      state.loadingRandom = action.payload;
+    },
+    setCurrentCardIndex: (state, action) => {
+      state.currentCardIndex = action.payload;
+    },
   },
   extraReducers: (builder) => {
+    // Random Words
     builder.addCase(fetchRandomWordsThunk.pending, (state) => {
-      state.loading = true;
+      state.loadingRandom = true;
+      state.error = null;
     });
     builder.addCase(fetchRandomWordsThunk.fulfilled, (state, action) => {
       state.words = action.payload;
-      state.loading = false;
+      state.loadingRandom = false;
     });
     builder.addCase(fetchRandomWordsThunk.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || t('home.failedToFetchRandomWords');
+      state.loadingRandom = false;
+      state.error = action.error.message || t('word.failedToFetchRandomWords');
     });
   },
 });
 
+export const { setLoading, setError, clearError, setLoadingRandom, setCurrentCardIndex } = wordSlice.actions;
 export default wordSlice.reducer;
 

@@ -5,15 +5,15 @@ import {loginStyles} from './styles';
 import {TextButton} from '../../components/Button/text_button';
 import {BaseButton} from '../../components/base';
 import { useLoginViewModel } from './useLoginViewModel';
+import { t } from 'i18next';
 
 const LoginScreen = () => {
-  const { t } = useTranslation();
   const {
     username,
     password,
     loading,
-    setUsername,
-    setPassword,
+    onChangeUsername,
+    onChangePassword,
     handleLogin,
     handleForgotPassword,
     redirectToRegister,
@@ -31,16 +31,16 @@ const LoginScreen = () => {
       <TextInput
         style={loginStyles.input}
         placeholder={t('auth.username')}
-        value={username}
-        onChangeText={setUsername}
+        value={username || ''}
+        onChangeText={onChangeUsername}
         autoCapitalize="none"
       />
 
       <TextInput
         style={loginStyles.input}
         placeholder={t('auth.password')}
-        value={password}
-        onChangeText={setPassword}
+        value={password || ''}
+        onChangeText={onChangePassword}
         secureTextEntry
       />
 

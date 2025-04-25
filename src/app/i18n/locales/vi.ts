@@ -59,4 +59,12 @@ export default {
     failedToGetWordById: 'Lỗi khi lấy từ theo id',
     failedToSearchWords: 'Lỗi khi tìm kiếm từ',
   },
+  dictionary: {
+    search: 'Tìm kiếm',
+    oxford3000: 'Oxford 3000',
+  },
+  getAll: {
+    pageInvalid: 'Trang phải lớn hơn 0',
+    limitInvalid: 'Giới hạn phải lớn hơn 0',
+  },
 }; 

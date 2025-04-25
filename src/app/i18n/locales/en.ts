@@ -62,4 +62,12 @@ export default {
   home: {
     failedToFetchRandomWords: 'Failed to fetch random words',
   },
+  dictionary: {
+    search: 'Search',
+    oxford3000: 'Oxford 3000',
+  },
+  getAll: {
+    pageInvalid: 'Page must be greater than 0',
+    limitInvalid: 'Limit must be greater than 0',
+  },
 }; 

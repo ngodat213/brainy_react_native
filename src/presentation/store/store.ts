@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authReducer from './auth/authSlice'
-import wordReducer from './word/wordSlice'
+import homeReducer from './home/homeSlice'
+import dictionaryReducer from './dictionary/dictionarySlice'
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    word: wordReducer,
+    home: homeReducer,
+    dictionary: dictionaryReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

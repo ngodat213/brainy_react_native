@@ -1,35 +1,41 @@
-import {useState, useEffect} from 'react';
-
-import {Word} from '../../../domain/entities/word';
-import {WordRepository} from '../../../domain/repositories/wordRepository';
+import {useEffect} from 'react';
+import {useSelector} from 'react-redux';
 import {
   LIMIT_WORD_DEFAULT,
   STACK_SIZE_SWIPER_DEFAULT,
 } from '../../../core/constants/constants';
-import { RandomWordUseCase } from '../../../domain/usecases/word/randomWordUseCase';
+import {useAppDispatch} from '../../store/hooks';
+import {fetchRandomWordsThunk} from '../../store/home/homeThunks';
+import {
+  selectWords,
+  selectWordLoading,
+  selectCurrentCardIndex,
+} from '../../store/home/homeSelectors';
+import {setCurrentCardIndex} from '../../store/home/homeSlice';
 
 export const useHomeViewModel = () => {
-  const [words, setWords] = useState<Word[]>([]);
-  const [currentCardIndex, setCurrentCardIndex] = useState<number>(0);
-  const [loading, setLoading] = useState(false);
   const swiperStackSize = STACK_SIZE_SWIPER_DEFAULT;
+  const dispatch = useAppDispatch();
 
-  //Initialize use case
-  const wordRepository = new WordRepository();
-  const randomWordUseCase = new RandomWordUseCase(wordRepository);
+  // Get state from Redux
+  const words = useSelector(selectWords);
+  const currentCardIndex = useSelector(selectCurrentCardIndex);
+  const loading = useSelector(selectWordLoading);
 
   const fetchRandomWords = async () => {
     try {
-      setLoading(true);
-      const words = await randomWordUseCase.execute({
-        limit: LIMIT_WORD_DEFAULT,
-      });
-      setWords(words);
+      await dispatch(
+        fetchRandomWordsThunk({
+          limit: LIMIT_WORD_DEFAULT,
+        }),
+      );
     } catch (error) {
       console.error('Error fetching random words:', error);
-    } finally {
-      setLoading(false);
     }
+  };
+
+  const changeCurrentCardIndex = (index: number) => {
+    dispatch(setCurrentCardIndex(index));
   };
 
   useEffect(() => {
@@ -39,8 +45,9 @@ export const useHomeViewModel = () => {
   return {
     words,
     loading,
-    currentCardIndex,
     fetchRandomWords,
+    changeCurrentCardIndex,
+    currentCardIndex,
     swiperStackSize,
   };
 };
