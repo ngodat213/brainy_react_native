@@ -4,6 +4,8 @@ import { LoginScreen } from '../../presentation/screens';
 import SignUpScreen from '../../presentation/screens/SignUpScreen';
 import ForgotPwScreen from '../../presentation/screens/ForgotPwScreen';
 import MainScreen from '../../presentation/screens/MainScreen';
+import { Word } from '../../domain/entities/word';
+import VocabDetailScreen from '../../presentation/screens/VocabDetailScreen';
 
 // Auth Stack Types
 export type AuthStackParamList = {
@@ -16,6 +18,8 @@ export type AuthStackParamList = {
 export type RootStackParamList = {
   Auth: { screen: keyof AuthStackParamList };
   Main: undefined;
+  VocabDetail: { word: Word };
+  Dictionary: undefined;
 };
 
 // Navigation Props Types
@@ -66,6 +70,10 @@ const AppNavigator = () => {
       <RootStack.Screen 
         name="Main" 
         component={MainScreen}
+      />
+      <RootStack.Screen 
+        name="VocabDetail" 
+        component={VocabDetailScreen}
       />
     </RootStack.Navigator>
   );

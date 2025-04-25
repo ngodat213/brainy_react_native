@@ -15,6 +15,7 @@ import {
 } from '../../../domain/entities/word';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { styles } from './styles';
+import AudioButton from '../../components/audioButton';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   const {words, fetchRandomWords, swiperStackSize, loading, currentCardIndex, changeCurrentCardIndex} =
@@ -41,8 +42,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
         </View>
         <Text style={styles.wordText}>{wordItem.word}</Text>
         <View style={styles.audioContainer}>
-          <AudioButton wordItem={wordItem} isAm={false} />
-          <AudioButton wordItem={wordItem} isAm={true} />
+          <AudioButton audioId={wordItem.phonetic_text!} onPlay={() => {}} onStop={() => {}} />
+          <AudioButton audioId={wordItem.phonetic_am_text!} onPlay={() => {}} onStop={() => {}} />
         </View>
         {wordItem.senses?.[0]?.definition && (
           <Text style={styles.definitionText}>
@@ -108,16 +109,5 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
   );
 };
 
-const AudioButton = ({wordItem, isAm}: {wordItem: Word; isAm: boolean}) => {
-  const iconColor = isAm ? '#FF0000' : '#4FD0E9';
-  return (
-    <View style={styles.audioButton}>
-      <TouchableOpacity style={styles.audioButton}>
-        <Ionicons name="volume-high" size={24} color={iconColor} />
-      </TouchableOpacity>
-      <Text style={{fontSize: 12}}>{wordItem.phonetic_text}</Text>
-    </View>
-  );
-};
 
 export default HomeScreen;

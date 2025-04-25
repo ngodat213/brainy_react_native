@@ -45,17 +45,7 @@ export const styles = StyleSheet.create({
     lineHeight: 24,
     color: '#666',
   },
-  audioContainer: {
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  audioButton: {
-    borderRadius: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
+  
   divider: {
     height: 1,
     backgroundColor: '#E0E0E0',
@@ -74,6 +64,17 @@ export const styles = StyleSheet.create({
     marginTop: 16,
   },
   swipperButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  audioContainer: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 16,
+  },
+  audioButton: {
+    borderRadius: 20,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,

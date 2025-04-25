@@ -65,6 +65,10 @@ const dictionarySlice = createSlice({
     setLoadingSearch: (state, action) => {
       state.searchLoading = action.payload;
     },
+    clearSearch: state => {
+      state.search = '';
+      state.words = state.wordAll?.items || [];
+    },
     setStatusChange: (state, action) => {
       state.statusChange = action.payload;
       if (action.payload === LearningStatus.All) {
@@ -141,7 +145,12 @@ const dictionarySlice = createSlice({
     });
     builder.addCase(searchWordsThunk.fulfilled, (state, action) => {
       state.searchLoading = false;
-      state.words = action.payload;
+      state.search = action.meta.arg;
+      if (action.meta.arg === '') {
+        state.words = state.wordAll?.items || [];
+      } else {
+        state.words = action.payload;
+      }
     });
     builder.addCase(searchWordsThunk.rejected, (state, action) => {
       state.searchLoading = false;
@@ -157,6 +166,6 @@ export const {
   setLoadingSearch,
   setWord,
   setStatusChange,
-  setSearch,
+  clearSearch,
 } = dictionarySlice.actions;
 export default dictionarySlice.reducer;

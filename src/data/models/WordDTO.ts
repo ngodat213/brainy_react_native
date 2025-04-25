@@ -27,7 +27,3 @@ export interface RandomWordDTO {
 export interface WordByIdDTO {
   word: Word;
 }
-
-export interface SearchWordDTO {
-  words: Word[];
-}

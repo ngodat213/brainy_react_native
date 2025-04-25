@@ -1,7 +1,6 @@
 import {t} from 'i18next';
 import {apiClient} from '../../core/services/apiService';
 import {
-  SearchWordDTO,
   WordByIdDTO,
   WordByStatusDTO,
   WordDTO,
@@ -56,10 +55,10 @@ export class WordRepository implements IWordRepository {
 
   async searchWords(credentials: string): Promise<Word[]> {
     try {
-      const response = await apiClient.get<SearchWordDTO>(
+      const response = await apiClient.get<Word[]>(
         '/words/search?keyword=' + credentials,
       );
-      const words = response.words;
+      const words = response;
       return words;
     } catch (error) {
       throw new Error(t('word.failedToSearchWords'));

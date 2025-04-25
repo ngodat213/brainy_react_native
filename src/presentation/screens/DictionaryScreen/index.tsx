@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -13,11 +13,13 @@ import {styles} from './styles';
 import {
   getPosColor,
   getPosColorWithOpacity,
+  Word,
 } from '../../../domain/entities/word';
 import {useAppDispatch} from '../../store/hooks';
 import {
   fetchAllWordsThunk,
   fetchWordsByStatusThunk,
+  searchWordsThunk,
 } from '../../store/dictionary/dictionaryThunks';
 import {useSelector} from 'react-redux';
 import {
@@ -33,7 +35,7 @@ import {
   selectDictionaryStatus,
 } from '../../store/dictionary/dictionarySelectors';
 import {
-  setSearch,
+  clearSearch,
   setStatusChange,
 } from '../../store/dictionary/dictionarySlice';
 import {LearningStatus} from '../../../domain/enums/searchStautsEnum';
@@ -41,6 +43,14 @@ import {
   LIMIT_WORD_DEFAULT,
   PAGE_DEFAULT,
 } from '../../../core/constants/constants';
+import {getColorWithOpacity} from '../../../core/utils/colorUtils';
+import Dot from '../../components/dot';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../../app/navigation/AppNavigator';
+import { useNavigation } from '@react-navigation/native';
+
+type VocabDetailScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'VocabDetail'>;
+
 const DictionaryScreen = () => {
   const {t} = useTranslation();
   const dispatch = useAppDispatch();
@@ -50,6 +60,27 @@ const DictionaryScreen = () => {
   const limit = useSelector(selectDictionaryLimit);
   const search = useSelector(selectDictionarySearch);
   const status = useSelector(selectDictionaryStatus);
+
+  const navigation = useNavigation<VocabDetailScreenNavigationProp>();
+  // Add local state for search input
+  const [searchText, setSearchText] = useState('');
+  // Add ref for debounce timer
+  const searchTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // Handle search with debounce
+  const handleSearchChange = (text: string) => {
+    setSearchText(text);
+
+    // Clear previous timer if exists
+    if (searchTimer.current) {
+      clearTimeout(searchTimer.current);
+    }
+
+    // Set new timer (500ms debounce)
+    searchTimer.current = setTimeout(() => {
+      dispatch(searchWordsThunk(text));
+    }, 500);
+  };
 
   useEffect(() => {
     dispatch(
@@ -76,43 +107,54 @@ const DictionaryScreen = () => {
         status: LearningStatus.Skipped,
       }),
     );
+
+    // Cleanup function for component unmount
+    return () => {
+      if (searchTimer.current) {
+        clearTimeout(searchTimer.current);
+      }
+    };
   }, []);
 
   const statusData = [
     {
       name: 'All',
       backgroundColor: '#4FD0E9',
-      color: '#FFFFFF',
+      color: '#008000',
       status: LearningStatus.All,
       total: useSelector(selectDictionaryWordAll)?.total,
     },
     {
       name: 'Learning',
       backgroundColor: '#4FD0E9',
-      color: '#FFFFFF',
+      color: '#0000FF',
       status: LearningStatus.Learning,
       total: useSelector(selectDictionaryWordLearning)?.learn.total,
     },
     {
       name: 'Learned',
       backgroundColor: '#4FD0E9',
-      color: '#FFFFFF',
+      color: '#008080',
       status: LearningStatus.Learned,
       total: useSelector(selectDictionaryWordLearned)?.learn.total,
     },
     {
       name: 'Skipped',
       backgroundColor: '#4FD0E9',
-      color: '#FFFFFF',
+      color: '#483D8B',
       status: LearningStatus.Skipped,
       total: useSelector(selectDictionaryWordSkipped)?.learn.total,
     },
   ];
 
+  const handleRedirectToVocabDetail = (word: Word) => {
+    navigation.navigate('VocabDetail', {word});
+  };  
+
   return (
     <View style={styles.container}>
       <View style={styles.appBar}>
-        <Text>Oxford 3000</Text>
+        <Text style={styles.appBarTitle}>Oxford 3000</Text>
         <TouchableOpacity>
           <Ionicons name="arrow_forward" size={24} color={'#4FD0E9'} />
         </TouchableOpacity>
@@ -122,9 +164,21 @@ const DictionaryScreen = () => {
         placeholder={t('dictionary.search')}
         prefixIcon="search"
         suffixIcon="microphone"
-        value={search}
-        onChangeText={text => dispatch(setSearch(text))}
+        onSuffixPress={() => {
+          setSearchText('');
+          dispatch(clearSearch());
+        }}
+        value={searchText}
+        onChangeText={handleSearchChange}
       />
+      {search !== '' && (
+        <View style={styles.searchContainer}>
+          <TouchableOpacity>
+            <Ionicons name="search" size={16} color={'#4FD0E9'} />
+          </TouchableOpacity>
+          <Text style={styles.searchText}>Searching: "{search}"</Text>
+        </View>
+      )}
       <View style={styles.statusListContainer}>
         <FlatList
           data={statusData}
@@ -132,11 +186,27 @@ const DictionaryScreen = () => {
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => dispatch(setStatusChange(item.status))}>
-              <View style={styles.statusContainer}>
+              <View
+                style={[
+                  styles.statusContainer,
+                  {
+                    backgroundColor:
+                      status === item.status
+                        ? getColorWithOpacity(item.color, 0.15)
+                        : '#FFFFFF',
+                    borderColor:
+                      status === item.status ? item.color : '#EFEEEA',
+                    boxShadow:
+                      status === item.status
+                        ? `0px 0px 10px 0px 000000`
+                        : 'none',
+                  },
+                ]}>
+                <Dot isActive={status === item.status} color={item.color} />
                 <Text
                   style={[
                     styles.statusText,
-                    {color: status === item.name ? item.color : '#FFFFF'},
+                    {color: status === item.name ? '#FFFFFF' : '#000000'},
                   ]}>
                   {item.name}
                 </Text>
@@ -156,10 +226,11 @@ const DictionaryScreen = () => {
           renderItem={({item}) => {
             const posColor = getPosColor(item.pos);
             return (
-              <View style={styles.wordItem}>
-                <View style={styles.wordHeader}>
-                  <Text style={styles.wordTitle}>{item.word}</Text>
-                  <Text
+              <TouchableOpacity onPress={() => handleRedirectToVocabDetail(item)}>
+                <View style={styles.wordItem}>
+                  <View style={styles.wordHeader}>
+                    <Text style={styles.wordTitle}>{item.word}</Text>
+                    <Text
                     style={[
                       styles.wordPos,
                       {
@@ -172,14 +243,15 @@ const DictionaryScreen = () => {
                   </Text>
                 </View>
                 <Text style={styles.wordDefinition}>
-                  {item.senses[0].definition}
-                </Text>
-              </View>
+                    {item.senses[0].definition}
+                  </Text>
+                </View>
+              </TouchableOpacity>
             );
           }}
         />
       ) : (
-        <Text>No words found</Text>
+        <Text style={styles.noWordsFound}>No words found</Text>
       )}
     </View>
   );
