@@ -2,56 +2,81 @@ import React from 'react';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LoginScreen } from '../../presentation/screens';
 import SignUpScreen from '../../presentation/screens/SignUpScreen';
-import HomeScreen from '../../presentation/screens/HomeScreen';
 import ForgotPwScreen from '../../presentation/screens/ForgotPwScreen';
+import MainScreen from '../../presentation/screens/MainScreen';
+import { Word } from '../../domain/entities/word';
+import VocabDetailScreen from '../../presentation/screens/VocabDetailScreen';
 
-export type RootStackParamList = {
-  LoginScreen: undefined;
-  SignUpScreen: undefined;
-  HomeScreen: undefined;
-  ForgotPwScreen: undefined;
+// Auth Stack Types
+export type AuthStackParamList = {
+  Login: undefined;
+  SignUp: undefined;
+  ForgotPassword: undefined;
 };
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+// Root Stack Types
+export type RootStackParamList = {
+  Auth: { screen: keyof AuthStackParamList };
+  Main: undefined;
+  VocabDetail: { word: Word };
+  Dictionary: undefined;
+};
 
-const AppNavigator = () => {
+// Navigation Props Types
+export type RootStackNavigationProp = NativeStackNavigationProp<RootStackParamList>;
+export type AuthStackNavigationProp = NativeStackNavigationProp<AuthStackParamList>;
+
+const RootStack = createNativeStackNavigator<RootStackParamList>();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+
+const AuthNavigator = () => {
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
     >
-      <Stack.Screen 
-        name="LoginScreen" 
+      <AuthStack.Screen 
+        name="Login" 
         component={LoginScreen}
-        options={{
-          title: 'Login', 
-        }}
       />
-      <Stack.Screen 
-        name="SignUpScreen" 
+      <AuthStack.Screen 
+        name="SignUp" 
         component={SignUpScreen}
-        options={{
-          title: 'Sign Up',
-        }}
       />
-      <Stack.Screen 
-        name="HomeScreen" 
-        component={HomeScreen}
-        options={{
-          title: 'Home',
-        }}
-      />
-      <Stack.Screen 
-        name="ForgotPwScreen" 
+      <AuthStack.Screen 
+        name="ForgotPassword" 
         component={ForgotPwScreen}
-        options={{
-          title: 'Forgot Password',
-        }}
       />
-    </Stack.Navigator>
+    </AuthStack.Navigator>
   );
 };
 
-export type NavigationProps = NativeStackNavigationProp<RootStackParamList>;
+const AppNavigator = () => {
+  // TODO: Add authentication state check
+  const isAuthenticated = false;
+
+  return (
+    <RootStack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName={isAuthenticated ? 'Main' : 'Auth'}
+    >
+      <RootStack.Screen 
+        name="Auth" 
+        component={AuthNavigator}
+      />
+      <RootStack.Screen 
+        name="Main" 
+        component={MainScreen}
+      />
+      <RootStack.Screen 
+        name="VocabDetail" 
+        component={VocabDetailScreen}
+      />
+    </RootStack.Navigator>
+  );
+};
+
 export default AppNavigator;

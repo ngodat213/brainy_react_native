@@ -1,23 +1,24 @@
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { I18nextProvider } from 'react-i18next';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from '../core/theme/ThemeContext';
+import i18n from './i18n';
 import AppNavigator from './navigation/AppNavigator';
 import { store } from '../presentation/store/store';
-import { NavigationContainer } from '@react-navigation/native';
-import '../app/i18n';
 
 const AppWrapper = () => {
   return (
     <Provider store={store}>
-      <ThemeProvider>
-        <StatusBar barStyle="dark-content" />
-        <NavigationContainer>
-          <AppNavigator />
-        </NavigationContainer>
-      </ThemeProvider>
+      <SafeAreaProvider>
+        <I18nextProvider i18n={i18n}>
+          <NavigationContainer>
+            <AppNavigator />
+          </NavigationContainer>
+        </I18nextProvider>
+      </SafeAreaProvider>
     </Provider>
-  )
-}
+  );
+};
 
 export default AppWrapper;

@@ -2,21 +2,18 @@ import React, {useState} from 'react';
 import {SafeAreaView, Text, View, TextInput, Alert} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {loginStyles} from './styles';
-import {useNavigation} from '@react-navigation/native';
-import {NavigationProps} from '../../../app/navigation/AppNavigator';
 import {TextButton} from '../../components/Button/text_button';
 import {BaseButton} from '../../components/base';
 import { useLoginViewModel } from './useLoginViewModel';
+import { t } from 'i18next';
 
 const LoginScreen = () => {
-  const { t } = useTranslation();
-  const navigation = useNavigation<NavigationProps>();
   const {
     username,
     password,
     loading,
-    setUsername,
-    setPassword,
+    onChangeUsername,
+    onChangePassword,
     handleLogin,
     handleForgotPassword,
     redirectToRegister,
@@ -34,16 +31,16 @@ const LoginScreen = () => {
       <TextInput
         style={loginStyles.input}
         placeholder={t('auth.username')}
-        value={username}
-        onChangeText={setUsername}
+        value={username || ''}
+        onChangeText={onChangeUsername}
         autoCapitalize="none"
       />
 
       <TextInput
         style={loginStyles.input}
         placeholder={t('auth.password')}
-        value={password}
-        onChangeText={setPassword}
+        value={password || ''}
+        onChangeText={onChangePassword}
         secureTextEntry
       />
 

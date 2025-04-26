@@ -1,5 +1,6 @@
 import { t } from "i18next";
 import { AuthRepository } from "../../repositories/AuthRepository";
+import { SignUpValidator } from "../../validators/auth/signUpValidator";
 
 export interface SignUpParams {
   full_name: string;
@@ -13,21 +14,11 @@ export class SignUpUseCase {
   constructor(private authRepository: AuthRepository) {}
 
   async execute(params: SignUpParams): Promise<void> {
-    if (!params.full_name) {
-      throw new Error(t('auth.pleaseEnterFullName'))
-    } 
-    if (!params.username) {
-      throw new Error(t('auth.pleaseEnterUsername'))
-    }
-    if (!params.password) {
-      throw new Error(t('auth.pleaseEnterPassword'))
-    }
-    if (!params.email) {
-      throw new Error(t('auth.pleaseEnterEmail'))
-    }
-
-    if (params.password !== params.confirmPassword) {
-      throw new Error('auth.passwordNotMatch')
+    // Validate SignUp Params
+    const validator = new SignUpValidator();
+    const validationResult = validator.validate(params);
+    if (!validationResult.isValid) {
+      throw new Error(validationResult.errors.join(', '));
     }
     return this.authRepository.register(params);
   }

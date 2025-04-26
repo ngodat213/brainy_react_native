@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { User } from "../../../domain/entities/user";
 import { loginThunk, registerThunk } from "./authThunks";
+import { t } from "i18next";
 
 interface AuthState {
   isAuthenticated: boolean
   user: User | null
+  username: string | null
+  password: string | null
   loading: boolean
   error: string | null
 }
@@ -12,6 +15,8 @@ interface AuthState {
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
+  username: 'ngodat213',
+  password: 'Code26102003',
   loading: false,
   error: null
 }
@@ -29,6 +34,12 @@ const authSlice = createSlice({
       state.user = action.payload
       state.loading = false
       state.error = null
+    },
+    setUsername: (state, action) => {
+      state.username = action.payload
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload
     },
     loginFailure: (state, action) => {
       state.loading = false
@@ -55,7 +66,7 @@ const authSlice = createSlice({
       state.loading = false
     })
     builder.addCase(loginThunk.rejected, (state, action) => {
-      state.error = action.error.message || 'Login failed'
+      state.error = action.error.message || t('auth.loginFailed')
       state.loading = false
     })
     builder.addCase(registerThunk.pending, (state) => {
@@ -65,11 +76,11 @@ const authSlice = createSlice({
       state.loading = false
     })
     builder.addCase(registerThunk.rejected, (state, action) => {
-      state.error = action.error.message || 'Register failed'
+      state.error = action.error.message || t('auth.registerFailed')
       state.loading = false
     })
   } 
 })
 
-export const { clearError, setLoading } = authSlice.actions
+export const { clearError, setLoading, setUsername, setPassword } = authSlice.actions
 export default authSlice.reducer

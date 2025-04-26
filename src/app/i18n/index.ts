@@ -3,6 +3,7 @@ import { initReactI18next } from 'react-i18next';
 import en from './locales/en';
 import vi from './locales/vi';
 import EncryptedStorage from 'react-native-encrypted-storage';
+import { DEFAULT_LANGUAGE } from '../../core/constants/constants';
 
 const LANGUAGE_KEY = '@app_language';
 
@@ -27,8 +28,7 @@ i18n.use(initReactI18next).init({
       translation: vi,
     },
   },
-  lng: 'en', // default language
-  fallbackLng: 'en',
+  fallbackLng: DEFAULT_LANGUAGE,
   interpolation: {
     escapeValue: false,
   },
