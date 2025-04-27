@@ -70,4 +70,7 @@ export default {
     pageInvalid: 'Page must be greater than 0',
     limitInvalid: 'Limit must be greater than 0',
   },
+  grammar: {
+    title: 'Grammar',
+  },
 }; 
