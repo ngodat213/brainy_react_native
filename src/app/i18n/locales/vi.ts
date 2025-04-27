@@ -67,4 +67,7 @@ export default {
     pageInvalid: 'Trang phải lớn hơn 0',
     limitInvalid: 'Giới hạn phải lớn hơn 0',
   },
+  grammar: {
+    title: 'Ngữ pháp',
+  },
 }; 
