@@ -4,13 +4,33 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+    marginTop: 32,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    position: 'relative',
+  },
+  backButton: {
+    marginRight: 16,
+    position: 'absolute',
+    left: 16,
+    top: 32,
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginVertical: 16,
-    marginHorizontal: 16,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 32,
     textAlign: 'center',
+  },
+  list: {
+    marginTop: 48,
   },
   item: {
     flexDirection: 'row',

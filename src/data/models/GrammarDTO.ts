@@ -1,5 +1,5 @@
-import { Lesson } from "../../domain/entities";
+import { Category } from "../../domain/entities";
 
 export interface GrammarDTO {
-  categories: Lesson[];
+  categories: Category[];
 }

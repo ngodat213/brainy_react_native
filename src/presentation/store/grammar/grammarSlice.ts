@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Lesson } from "../../../domain/entities/lesson";
+import { Category } from "../../../domain/entities/category";
 import { fetchGrammar } from "./grammarThunks";
 
 export interface GrammarState {
-  grammar: Lesson[];
+  grammar: Category[];
   isLoading: boolean;
   error: string | null;
 }

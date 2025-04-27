@@ -1,23 +1,19 @@
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, FlatList} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {
-  selectGrammarError,
-  selectGrammarLoading,
-} from '../../store/grammar/grammarSelectors';
 import {useSelector} from 'react-redux';
 import {useAppDispatch} from '../../store/hooks';
 import {selectGrammar} from '../../store/grammar/grammarSelectors';
 import {fetchGrammar} from '../../store/grammar/grammarThunks';
-import {Lesson} from '../../../domain/entities/lesson';
 import { styles } from './styles';
-
+import { useNavigation } from '@react-navigation/native';
+import { RootStackParamList } from '../../../app/navigation/AppNavigator';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { Category } from '../../../domain/entities/category';
 const GrammarScreen = () => {
   const {t} = useTranslation();
   const dispatch = useAppDispatch();
   const grammar = useSelector(selectGrammar);
-  const loading = useSelector(selectGrammarLoading);
-  const error = useSelector(selectGrammarError);
 
   useEffect(() => {
     dispatch(fetchGrammar({with_lessons: true}));
@@ -34,17 +30,22 @@ const GrammarScreen = () => {
   );
 };
 
-const GrammarItem = ({item}: {item: Lesson}) => {
+const GrammarItem = ({item}: {item: Category}) => {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   return (
-    <View style={styles.item}>
-      <Text style={styles.lessonOrderIndex}>{item.orderIndex}</Text>
-      <View style={styles.lessonTitleContainer}>
+    <TouchableOpacity onPress={() => {
+      navigation.navigate('Lesson', {lessons: item.lessons || []});
+    }}>
+      <View style={styles.item}>
+        <Text style={styles.lessonOrderIndex}>{item.orderIndex}</Text>
+        <View style={styles.lessonTitleContainer}>
         <Text style={styles.lessonTitle}>{item.title}</Text>
         <Text numberOfLines={2} style={styles.lessonDescription}>
           {item.description}
         </Text>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 export default GrammarScreen;
